@@ -1,5 +1,5 @@
-	
-<a href="https://hackclub.com/"><img style="position: absolute; top: 0; left: 10px; border: 0; width: 256px; z-index: 999;" src="https://assets.hackclub.com/flag-orpheus-top.svg" alt="Hack Club"/></a>
+<a href="https://hackclub.com/"><img style="position: absolute; top: 0; left: 10px; border: 0; width: 256px; z-index: 999;" src="https://assets.hackclub.com/banners/2025.svg" alt="Hack Club"/></a>	
+
 
 🐕 OREO – Robot Dog
 
@@ -186,7 +186,7 @@ Hip servos use B headers
 Knee servos use G headers
 
 A headers are unused
-
+<a href="https://hackclub.com/"><img style="position: absolute; top: 0; left: 10px; border: 0; width: 256px; z-index: 999;" src="https://assets.hackclub.com/flag-orpheus-top.svg" alt="Hack Club"/></a>
 Because of this change, no pin swapping is required in software.
 
 Conclusion
