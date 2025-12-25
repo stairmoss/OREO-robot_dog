@@ -186,9 +186,10 @@ Hip servos use B headers
 Knee servos use G headers
 
 A headers are unused
-<a href="https://hackclub.com/"><img style="position: absolute; top: 0; left: 10px; border: 0; width: 256px; z-index: 999;" src="https://assets.hackclub.com/flag-orpheus-top.svg" alt="Hack Club"/></a>
+
 Because of this change, no pin swapping is required in software.
 
 Conclusion
 
 This project was not easy but very satisfying. I faced mistakes in PCB wiring, servo placement and mechanical strength, but learned a lot from fixing them. Oreo is a simple but reliable quadruped robot and can be a good starting point for anyone interested in walking robots.
+<a href="https://hackclub.com/"><img style="position: absolute; top: 0; left: 10px; border: 0; width: 256px; z-index: 999;" src="https://assets.hackclub.com/flag-orpheus-top.svg" alt="Hack Club"/></a>
