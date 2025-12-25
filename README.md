@@ -1,74 +1,98 @@
-# OREO-robot_dog
-Oreo is a small 3D-printed robot dog powered by an ESP32 and lightweight servo legs. Its compact body, strong joints, and simple two-servo leg design give it smooth, stable movement. With a clean internal layout for the battery and PCB, Oreo is built for easy assembly, testing, and fun robotics experiments.
+🐕 OREO – Robot Dog
 
+Oreo is a small 3D printed robot dog made using ESP32 and servo motors. It is designed to be compact, lightweight and easy to assemble. The body has clean internal space for battery and PCB so wiring does not become messy. The robot uses a simple two-servo per leg mechanism which gives decent and stable walking.
 
+This robot is mainly built for learning quadruped robotics, PCB design and mechanical joints in a beginner friendly way.
 
+Why I Built This
 
-I designed my own compact robot dog based on a fully customized 3D-printed frame, optimised joints, and simplified electronics. My goal was to create a stable, lightweight, and beginner-friendly quadruped that uses only two servos per leg—one for the hip and one for the knee—while keeping the entire system clean and modular.
+I wanted to build a robot dog that is not too complex but still functional. Many quadruped robots online use 3 servos per leg and complicated frames. I tried to simplify the design and reduce the servo count while keeping good stability.
 
-The leg design originally used three servos (Alpha, Beta, Gamma). I reconfigured the structure to run on just the hip and knee servos. While preparing the electronics, I discovered that I connected the wrong servo positions on the PCB, so I reordered the servo pin configuration inside the main config file. After this correction, the robot walked as expected with smooth movement.
+While building this project I learned a lot about:
 
-3D Printing
+Quadruped leg movement
 
-I redesigned the frame to use screws instead of filament-based hinge pins so the joints are stronger and last longer.
-The entire body prints nearly as one piece, with a rectangular opening on the underside for the battery pack and access to the main PCB.
+Servo power management
 
+PCB mistakes and fixing them
+
+Mechanical strength of 3D printed joints
+
+This project went through multiple revisions and mistakes before finally working properly.
+
+Project Features
+
+4 leg quadruped robot
+
+Only 2 servos per leg (hip + knee)
+
+Fully 3D printed structure
+
+ESP32 based control
+
+Custom PCB with external USB port
+
+Modular and easy to repair design
+
+Design & Hardware
+
+The body is mostly printed as one main frame with a bottom opening. This opening is used for battery and PCB access. A printed lid is used to close the body.
+
+Originally the leg used 3 servos (Alpha, Beta, Gamma). Later I redesigned the structure so only hip and knee servos are needed. This reduced cost and complexity.
+
+3D Printing Details
 Printing Notes
 
-Rotate the body upside down before slicing so the large opening faces upward.
+Rotate the body upside down before slicing so the large opening faces upward
 
-Print with supports under the overhangs.
+Use supports only for the body
 
-The lid prints without supports.
+Lid does not need supports
 
-The body uses threaded inserts to hold the lid and hips firmly.
+Hip and ham parts must be printed twice (left and right)
 
-Hip components and ham sections must be printed twice each (left + right).
+Drill the shank joint hole using 3mm drill bit
 
-The shank hole requires a 3mm drill for the joint screw.
+Tendons are made using straightened paper clips
 
-Tendons are made from straightened paper clips and are locked using printed pins.
+All joints use screws instead of filament pins so the joints last longer.
 
-PCB
+PCB & Electronics
 
-For durability, I added a full-size USB Type-B port so I don’t have to rely on the tiny USB connector on the ESP32 board.
-I repurposed an old USB cable by adding a 4-pin connector so it fits neatly into my PCB layout.
+I designed a custom PCB mainly to clean up wiring. I also added a full size USB Type-B connector because the ESP32 micro USB port is small and easy to break.
 
-A DC-DC boost regulator powers the servos. I set the regulator output to 5V before soldering to avoid overvoltage damage.
-My PCB is fixed inside the body using four M2 screws.
+A DC-DC buck/boost converter is used to power all servos. Before soldering, I adjusted the output voltage to exactly 5V to avoid servo damage.
 
-Software
+The PCB is mounted inside the body using four M2 screws.
 
-I run custom firmware for gait control and servo synchronization. Because of my initial servo-pin mismatch, I modified the leg configuration file to swap hip and knee servo pins for all four legs.
+Software / Firmware
 
-An INA219 current sensor driver exists in the firmware, but I removed that feature in my build because I’m keeping the design minimal.
+I use custom firmware for:
 
-Conclusion
+Servo mapping
 
-This build was challenging but extremely satisfying. The mechanics, PCB, and firmware all came together to form a reliable little robot dog. Anyone who wants to explore quadruped robotics can use this concept as a starting point.
+Leg inverse kinematics
 
-Update V2
+Timing and movement control
 
-I revised the schematic and PCB again so each leg now has full connectors for all three servo positions. This means:
+Basic walking gait
 
-Hip servos use the B headers
+At first I connected wrong servo positions on the PCB. Because of this the robot was moving incorrectly. I fixed this by swapping hip and knee pins in the config file. After this correction, walking became smooth.
 
-Knee servos use the G headers
+There is INA219 current sensor code in firmware, but I removed it in the actual build to keep things simple.
 
-A headers are unused
-With this change, no manual pin swapping is required in software.
+Assembly Instructions (Important)
+Step 1 – Print Parts
 
-Custom Parts & Enclosures
+Print all STL files:
 
-I created STL files for:
+Body
 
-Full body
+Lid
 
-Body lid
+Hip (L + R)
 
-Hip left/right
-
-Ham left/right
+Ham (L + R)
 
 Shank
 
@@ -76,132 +100,92 @@ Servo brackets
 
 Tendon pins
 
-Schematics
+Step 2 – Prepare Joints
 
-I drafted:
+Press M3 and M2.5 threaded inserts into body and lid
 
-Schematic V1
-
-PCB V1
-
-Schematic V2 (with upgraded servo layout)
-
-PCB V2
-
-Code
-
-My firmware handles:
-
-Leg IK
-
-Servo mapping
-
-Timing control
-
-Basic walking gait
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Oreo Robot Dog – Components Table
-Component	Qty	Purpose
-ESP32 Dev Board	1	Main controller for Oreo
-MG90S / MG996R Servo	8	Hip + knee movement for all 4 legs
-3D-printed Body Parts	1 full set	Frame, legs, joints
-Dual 18650 Battery Holder	1	Power supply for servos & ESP32
-18650 Li-ion Batteries	2	7.4V power source
-DC-DC Buck/Boost Converter (5V Output)	1	Stable 5V power for servos
-M3 Screws (6mm, 20mm)	Set	For joints & body assembly
-M2 / M2.5 Screws	Set	Mounting PCB + battery holder
-Threaded Inserts (M3 + M2.5)	Set	For securing body and lid
-Dupont Jumper Wires	Several	Servo & power connections
-Paper Clips (medium size)	4	For tendon linkages
-Custom PCB (optional)	1	Clean wiring & USB port
-How to Build Oreo – Simple Steps
-1. Print the 3D Parts
-
-Print the body, lid, hips, hams, shanks, and tendon pins.
-
-Rotate the body upside down before slicing.
-
-Use supports only for the body.
-
-Drill the shank–ham joint hole with a 3mm drill.
-
-2. Prepare the Joints
-
-Press M3 and M2.5 threaded inserts into the body and lid.
-
-Assemble each leg:
+Assemble each leg
 
 Hip → Ham (servo mounted)
 
-Ham → Shank (M3 screw + locknut)
+Ham → Shank (M3 screw + lock nut)
 
-Tendons are made from straightened paper clips and held with printed pins.
+Make tendons using straightened paper clips
 
-3. Mount the Servos
+Step 3 – Mount Servos
 
-2 servos per leg → 8 total.
+2 servos per leg → total 8 servos
 
-Hip servo = upper joint
+Hip servo = top joint
 
-Knee servo = lower joint
+Knee servo = bottom joint
 
-Make sure all horns are centered before screwing in.
+Center all servo horns before tightening
 
-4. Install Electronics
+Step 4 – Electronics Setup
 
-Place the ESP32 board on the PCB or mount surface.
+Mount ESP32 on PCB or holder
 
-Connect servos to their respective pins (Hip, Knee).
+Connect all servos to correct headers
 
-Connect battery holder + DC converter to supply 5V to all servos.
+Connect DC-DC converter and battery holder
 
-Ensure buck converter is calibrated to exactly 5V.
+Recheck 5V output before connecting servos
 
-5. Fit Everything Inside the Body
+Step 5 – Final Assembly
 
-Insert the PCB through the bottom opening.
+Insert PCB and battery from bottom opening
 
-Insert the battery pack.
+Arrange wiring neatly inside
 
-Close using the printed lid + small screws.
+Close body using printed lid and screws
 
-6. Upload Firmware
+Step 6 – Upload Code
 
-Connect ESP32 via USB.
+Connect ESP32 using USB
 
-Install required servo-control library.
+Upload firmware
 
-Upload the walking code.
+Adjust servo trim values
 
-Adjust servo trim values to make Oreo stand straight.
+Step 7 – Test & Tune
 
-7. Test & Tune
+Test each leg separately
 
-Test each leg individually.
+Balance robot on flat surface
 
-Balance Oreo on all four legs.
+Run walking code
 
-Run the walking function.
+Fine tune servo angles
 
-Adjust angles until walking becomes smooth.  
+Bill of Materials (BOM)
+Component	Qty	Purpose
+ESP32 Dev Board	1	Main controller
+Servo Motors (MG90S / MG996R)	8	Leg movement
+3D Printed Parts	1 Set	Frame and joints
+Dual 18650 Battery Holder	1	Power supply
+18650 Li-ion Battery	2	7.4V input
+DC-DC Converter (5V)	1	Servo power
+M3 Screws	Set	Joints & frame
+M2 / M2.5 Screws	Set	PCB mounting
+Threaded Inserts	Set	Strong joints
+Dupont Wires	Few	Signal connections
+Paper Clips	4	Tendon links
+Custom PCB (optional)	1	Cleaner wiring
+Update – Version 2 PCB
+
+In the second PCB version:
+
+Each leg has connectors for all 3 servo positions
+
+Hip servos use B headers
+
+Knee servos use G headers
+
+A headers are unused
+
+Because of this change, no pin swapping is required in software.
+
+Conclusion
+
+This project was not easy but very satisfying. I faced mistakes in PCB wiring, servo placement and mechanical strength, but learned a lot from fixing them. Oreo is a simple but reliable quadruped robot and can be a good starting point for anyone interested in walking robots.
