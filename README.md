@@ -1,245 +1,300 @@
-# 🐕 OREO – ESP32 Based Quadruped Robot Dog
+# 🐕 OREO – ROS Based Quadruped Robot Dog
 
 <a href="https://hackclub.com/"><img style="position: absolute; top: 0; left: 10px; border: 0; width: 256px; z-index: 999;" src="https://assets.hackclub.com/banners/2026.svg" alt="Hack Club"/></a>
 
-OREO is a compact, lightweight, and beginner-friendly **3D-printed quadruped robot dog** powered by an **ESP32** and servo motors.  
-The project is designed to teach **quadruped robotics, PCB design, and mechanical joints** in a simple, hands-on way.
+# OREO V2 – ROS Powered Vision-Based Quadruped Robot  
+### Hack Club Advanced Robotics Project
 
-Unlike many complex robot dogs that use 3 servos per leg and heavy frames, OREO focuses on **simplicity without losing stability**.
+OREO V2 is a next-generation quadruped robot dog powered by a Raspberry Pi 4 and Teensy microcontroller, upgraded from the original ESP32 version into a full ROS-based intelligent robotic platform.
+
+This version adds:
+
+- 🧠 Computer Vision
+- 🐾 12 High-Torque (20kg) Servos
+- 🤖 ROS 2 Architecture
+- 📡 Behavior-Based Control System
+- ❤️ Touch Interaction
+- 📷 Person Detection & Following
+
+OREO V2 is no longer just a walking robot — it is an intelligent robotic companion platform built under a constrained $395 budget.
 
 ---
 
-## 📌 Project Overview
+# 📌 Project Overview
 
 | Item | Description |
-|----|----|
+|------|-------------|
 | Robot Type | Quadruped (4-legged) |
-| Controller | ESP32 |
-| Servos per Leg | 2 (Hip + Knee) |
-| Total Servos | 8 |
-| Structure | Fully 3D Printed |
-| Power | Dual 18650 Li-ion |
-| Difficulty | Beginner → Intermediate |
-| Goal | Learning walking robot fundamentals |
+| Architecture | ROS 2 Modular System |
+| Main Computer | Raspberry Pi 4 Model B (4GB) |
+| Motor Controller | Teensy Microcontroller |
+| Servos per Leg | 3 (Hip, Upper, Knee) |
+| Total Servos | 12 × 20kg High Torque |
+| Sensors | IMU + Touch Sensor + Camera |
+| Frame | 3D Printed Spot Micro Style |
+| Power | 2S/3S Li-ion / LiPo Battery |
+| Budget | ~$395 USD |
+| Difficulty | Intermediate → Advanced |
 
 ---
 
-## 🎯 Why I Built This
+# 🎯 Vision & Purpose
 
-I wanted to build a robot dog that:
-- Is **not over-complicated**
-- Uses **fewer servos**
-- Is **easy to assemble and repair**
-- Still walks **smoothly and stably**
+OREO V2 was built to:
 
-While building this project, I learned about:
-- Quadruped leg movement
-- Gait timing and stability
-- Servo power management
-- PCB design mistakes and fixes
-- Mechanical stress in 3D printed joints
+- Transition from beginner robotics to ROS-based research structure
+- Integrate computer vision into a quadruped platform
+- Maintain affordability under strict budget constraints
+- Build a modular robotic system expandable to SLAM and AI
+- Learn real robotics engineering workflow
 
-This project went through **multiple failed revisions** before reaching a working design.
+This robot is designed as a stepping stone toward advanced robotic systems.
 
 ---
 
-## ✨ Features
+# 🧠 System Architecture
 
-- 🐾 4-leg quadruped robot
-- ⚙️ Only **2 servos per leg**
-- 🖨 Fully 3D printed body and joints
-- 🧠 ESP32 based control system
-- 🔌 Custom PCB for clean wiring
-- 🔋 External DC-DC regulated servo power
-- 🔧 Modular and easy-to-repair design
+OREO V2 uses a layered robotics architecture.
 
----
+## 🔵 High-Level Control (Raspberry Pi 4)
 
-## 🧩 Mechanical Design
+Runs:
 
-### Body
-- Single main body print
-- Bottom opening for PCB and battery
-- Printed lid secured with screws
-- Clean internal space for wiring
+- Ubuntu 22.04 (64-bit)
+- ROS 2 Humble
+- OpenCV
+- Behavior Node
+- Gait Controller Node
+- Vision Node
 
-### Leg Design
-- Initial version used **3 servos per leg**
-- Redesigned to **2 servos per leg**
-- Reduced cost, weight, and software complexity
-- Uses tendon support for stability
+Responsibilities:
+
+- Computer vision
+- State machine decisions
+- Gait generation
+- Touch reaction logic
+- Serial communication with Teensy
 
 ---
 
-## 🖨 3D Printing Instructions
+## 🟢 Low-Level Control (Teensy)
 
-### Printing Orientation
-- Rotate the **body upside down** before slicing
-- Large opening must face upward
+Responsibilities:
 
-### Support Requirements
-| Part | Supports |
-|---|---|
-| Body | Yes |
-| Lid | No |
-| Hip / Ham | No |
-| Shank | No |
+- Servo PWM generation via PCA9685
+- Reading IMU data
+- Executing joint commands
+- Sending feedback (IMU + joint states)
 
-### Important Notes
-- Print **Hip and Ham parts twice** (Left + Right)
-- Drill shank joint using **3mm drill bit**
-- Use **screws instead of filament pins**
-- Tendons are made from **straightened paper clips**
+Communication via USB Serial to Raspberry Pi.
 
 ---
 
-## 🔌 PCB & Electronics
+# 🤖 ROS Node Structure
 
-### Custom PCB
-The PCB was designed to:
-- Reduce wire clutter
-- Improve reliability
-- Add a strong **USB Type-B port**
-
-### Power System
-- Dual 18650 batteries (~7.4V)
-- DC-DC buck/boost converter
-- Servo voltage set to **exactly 5V**
-
-> ⚠️ Always adjust the DC-DC output before connecting servos to prevent damage.
-
-The PCB is mounted inside the body using **four M2 screws**.
+## 1️⃣ teensy_interface_node
+- Converts ROS messages to serial packets
+- Publishes:
+  - `/joint_states`
+  - `/imu`
+- Subscribes:
+  - `/joint_targets`
 
 ---
 
-## 🧠 Software / Firmware
-
-### Firmware Features
-- Servo mapping
-- Inverse kinematics
-- Leg timing control
-- Basic walking gait
-
-### Debug Issue Faced
-- Hip and knee servos were initially swapped
-- Robot movement was unstable
-- Fixed by swapping pins in the config file
-- Walking became smooth after correction
-
-INA219 current sensor code exists but was removed in the final build for simplicity.
+## 2️⃣ gait_controller_node
+- Generates walking/trot gait
+- Uses IMU feedback for balance correction
+- Publishes `/joint_targets`
 
 ---
 
-## 🛠 Assembly Guide
-
-### Step 1 – Print Parts
-- Body  
-- Lid  
-- Hip (L + R)  
-- Ham (L + R)  
-- Shank  
-- Servo brackets  
-- Tendon pins  
+## 3️⃣ vision_node
+- Captures camera feed
+- Runs OpenCV person detection
+- Publishes:
+  - `/person_detected`
+  - `/target_direction`
 
 ---
 
-### Step 2 – Prepare Joints
-- Insert **M3 and M2.5 threaded inserts**
-- Assemble legs:
-  - Hip → Ham (servo mounted)
-  - Ham → Shank (M3 screw + lock nut)
-- Create tendons using paper clips
+## 4️⃣ behavior_node (Robot Brain)
+
+Handles states:
+
+- IDLE
+- SEARCH
+- FOLLOW
+- SIT
+- HAPPY
+- LOW_BATTERY
+
+Input:
+- Vision topic
+- Touch topic
+- Battery monitoring
+
+Output:
+- `/cmd_gait`
+- Emotion state commands
 
 ---
 
-### Step 3 – Mount Servos
-- Total servos: **8**
-- Upper servo = Hip
-- Lower servo = Knee
-- Center servo horns before tightening
+## 5️⃣ touch_node
+Reads capacitive or pressure sensor  
+Publishes `/touch_event`  
+
+When touched → Robot enters HAPPY state.
 
 ---
 
-### Step 4 – Electronics
-- Mount ESP32 on PCB
-- Connect servos to correct headers
-- Connect battery and DC-DC converter
-- Verify **5V output**
+# ✨ Features
+
+- 🐕 Full 12 DOF quadruped
+- ⚙️ 20kg high torque servos
+- 📷 Real-time person detection
+- 🚶 Follow-human functionality
+- ❤️ Touch-based interaction
+- 📐 IMU-based balance correction
+- 🔋 Dedicated high-current servo rail
+- 🧩 Modular ROS architecture
+- 🔌 Teensy real-time motor control
+- 🧠 AI-expandable platform
 
 ---
 
-### Step 5 – Final Assembly
-- Insert PCB and battery from bottom
-- Arrange wiring neatly
-- Close body with printed lid
+# 🧩 Mechanical Design
+
+Based on improved Spot Micro style frame.
+
+## Body
+- Central frame housing electronics
+- Battery compartment protected
+- Ventilation for Raspberry Pi
+- Camera mount on head
+
+## Legs
+- 3 DOF per leg
+- Parallel linkage for better weight distribution
+- Reinforced servo mounts for 20kg servos
+- Proper torque alignment to reduce mechanical stress
 
 ---
 
-### Step 6 – Upload Code
-- Connect ESP32 via USB
-- Upload firmware
-- Adjust servo trim values
+# 🔋 Power System
+
+- 2S or 3S Li-ion pack
+- High-current BEC or buck converter for servos (6V recommended)
+- Separate regulated 5V rail for Raspberry Pi
+
+⚠ Always:
+- Measure voltage before connecting servos
+- Test load voltage drop
+- Never power servos directly from Raspberry Pi
 
 ---
 
-### Step 7 – Testing
-- Test each leg individually
-- Place robot on flat surface
-- Run walking program
-- Fine-tune servo angles for balance
+# 🛠 Assembly Workflow
+
+## Step 1 – 3D Print Parts
+- Body frame
+- Leg assemblies (×4)
+- Head mount
+- Internal mounting brackets
+
+## Step 2 – Mount Servos
+- Center all 12 servos before installation
+- Attach horns at neutral 90°
+- Secure using metal gears and lock screws
+
+## Step 3 – Install Electronics
+- Mount Raspberry Pi
+- Mount Teensy
+- Connect PCA9685
+- Connect IMU
+- Install touch sensor on head/body
+
+## Step 4 – Wiring
+- Servo power rail separated
+- Signal wires routed cleanly
+- Verify ground common between Teensy & Pi
+
+## Step 5 – Software Setup
+- Install Ubuntu on Pi
+- Install ROS 2
+- Clone project repository
+- Build workspace using colcon
+- Flash Teensy firmware
+- Connect via USB
+
+## Step 6 – Calibration
+- Zero joint angles
+- Adjust trim offsets
+- Test single leg motion
+- Test gait without load
+- Then test full body
 
 ---
 
-## 📦 Bill of Materials (BOM)
+# 📦 Bill of Materials (Approx Budget)
 
-| Component | Qty | Purpose |
-|---|---|---|
-| ESP32 Dev Board | 1 | Main controller |
-| Servo Motors | 8 | Leg movement |
-| 3D Printed Parts | 1 set | Structure |
-| Dual 18650 Holder | 1 | Power |
-| 18650 Batteries | 2 | Supply |
-| DC-DC Converter | 1 | 5V servo power |
-| M3 Screws | Set | Joints |
-| M2 / M2.5 Screws | Set | PCB mounting |
-| Threaded Inserts | Set | Strength |
-| Dupont Wires | Few | Signals |
-| Paper Clips | 4 | Tendons |
-| Custom PCB (Optional) | 1 | Wiring cleanup |
+| Component | Qty |
+|-----------|-----|
+| Raspberry Pi 4 (4GB) | 1 |
+| Teensy Microcontroller | 1 |
+| PCA9685 Servo Driver | 1 |
+| 20kg Metal Gear Servos | 12 |
+| IMU Sensor | 1 |
+| Camera Module | 1 |
+| Touch Sensor | 1 |
+| Battery Pack | 1 |
+| Buck Converter | 1 |
+| 3D Printed Parts | 1 Set |
+| Screws & Inserts | Set |
 
----
-
-## 🔄 PCB Version 2 Update
-
-Improvements:
-- All 3 servo positions available per leg
-- Clean and consistent connector layout
-
-Header mapping:
-- **B headers** → Hip servos  
-- **G headers** → Knee servos  
-- **A headers** → Unused  
-
-No software pin swapping required.
+Total Estimated Cost: ~$390–395 USD
 
 ---
 
-## 🏁 Conclusion
+# 🚀 Software Capabilities
 
-OREO was a challenging but rewarding project.  
-Mistakes in PCB design, servo wiring, and mechanical strength became valuable learning experiences.
+Current:
 
-This robot proves that:
-- Quadruped robots don’t need extreme complexity
-- Simple designs can still walk reliably
-- Beginners *can* build walking robots successfully
+- Basic walk
+- Trot gait
+- Person detection
+- Follow mode
+- Touch reaction mode
 
-Perfect starting point for:
-- Advanced gaits
-- Sensors
-- Vision
-- AI-based control
+Future Upgrades:
+
+- SLAM
+- Obstacle detection
+- AI voice recognition
+- Depth camera integration
+- Web dashboard control
 
 ---
+
+# 🏁 What Makes OREO V2 Special
+
+- Built under strict budget
+- Uses ROS (research-level framework)
+- Integrates vision and behavior logic
+- Maintains affordable hardware
+- Fully modular and expandable
+- Combines mechanical + electrical + software engineering
+
+OREO V2 is not just a robot dog.
+
+It is a robotics learning platform engineered for serious development while staying budget-conscious.
+
+---
+
+
+
+---
+
+
 
 [![Hack Club](https://assets.hackclub.com/flag-orpheus-top.svg)](https://hackclub.com/)
