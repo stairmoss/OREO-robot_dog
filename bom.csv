@@ -1,21 +1,21 @@
-Component,Quantity,Unit Cost (USD),Total Cost (USD)
-Raspberry Pi 4 Model B (4GB),1,55,55
-Teensy 4.0,1,25,25
-PCA9685 16-Channel Servo Driver,1,8,8
-20kg Metal Gear Servo Motor,12,9,108
-MPU6050 IMU Sensor,1,5,5
-Raspberry Pi Camera Module,1,15,15
-Capacitive Touch Sensor,1,3,3
-2S/3S Li-ion Battery Pack,1,30,30
-High Current BEC / Buck Converter (6V 10A),1,18,18
-5V Buck Converter for Raspberry Pi,1,8,8
-3D Printing Filament (PLA/PETG ~1kg),1,20,20
-Servo Mounting Brackets / Hardware Kit,1,15,15
-M3 Screws, Nuts, Threaded Inserts Set,1,12,12
-18650 Cells (if custom pack),2,7,14
-18650 Battery Holder (if required),1,6,6
-Cooling Fan for Raspberry Pi,1,5,5
-USB Cable (Pi ↔ Teensy),1,3,3
-Wires, Connectors, Heat Shrink,1,10,10
-Miscellaneous Buffer Budget,1,20,20
-TOTAL,,,
+| Component                                  | Quantity | Unit Cost (USD) | Total Cost (USD) |
+| ------------------------------------------ | -------- | --------------- | ---------------- |
+| Raspberry Pi 4 Model B (4GB)               | 1        | 55              | 55               |
+| Teensy 4.0                                 | 1        | 25              | 25               |
+| PCA9685 16-Channel Servo Driver            | 1        | 8               | 8                |
+| 20kg Metal Gear Servo Motor                | 12       | 9               | 108              |
+| MPU6050 IMU Sensor                         | 1        | 5               | 5                |
+| Raspberry Pi Camera Module                 | 1        | 15              | 15               |
+| Capacitive Touch Sensor                    | 1        | 3               | 3                |
+| 2S/3S Li-ion Battery Pack                  | 1        | 30              | 30               |
+| High Current BEC / Buck Converter (6V 10A) | 1        | 18              | 18               |
+| 5V Buck Converter for Raspberry Pi         | 1        | 8               | 8                |
+| 3D Printing Filament (PLA/PETG ~1kg)       | 1        | 20              | 20               |
+| Servo Mounting Brackets / Hardware Kit     | 1        | 15              | 15               |
+| M3 Screws, Nuts, Threaded Inserts Set      | 1        | 12              | 12               |
+| 18650 Cells (if custom pack)               | 2        | 7               | 14               |
+| 18650 Battery Holder (if required)         | 1        | 6               | 6                |
+| Cooling Fan for Raspberry Pi               | 1        | 5               | 5                |
+| USB Cable (Pi ↔ Teensy)                    | 1        | 3               | 3                |
+| Wires, Connectors, Heat Shrink             | 1        | 10              | 10               |
+| Miscellaneous Buffer Budget                | 1        | 20              | 20               |
