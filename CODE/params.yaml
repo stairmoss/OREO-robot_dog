@@ -1,0 +1,19 @@
+# OREO V2 Calibration and Configuration
+serial_bridge:
+  ros__parameters:
+    port: "/dev/ttyACM0"
+    baud: 115200
+
+gait_manager:
+  ros__parameters:
+    # Physical dimensions in mm
+    L_coxa: 40.0
+    L_femur: 100.0
+    L_tibia: 100.0
+    
+    # Initial neutral standing height
+    base_z: -120.0
+    
+    # Servo Offsets (degrees) to level the robot
+    # format: [coxa, femur, tibia] for Leg 0, 1, 2, 3
+    offsets: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
