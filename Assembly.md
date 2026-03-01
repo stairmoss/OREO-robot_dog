@@ -1,180 +1,89 @@
-🔩 ASSEMBLY – OREO Robot Dog
-
-This document explains how to physically assemble the OREO robot dog from printed parts, electronics, and firmware. The steps are written so even beginners can follow.
-
-🧰 Tools Required
-
-Screwdriver (for M2 / M3 screws)
-
-3 mm drill bit
-
-Allen key (if needed for screws)
-
-Soldering iron (only if PCB is not pre-soldered)
-
-Multimeter (recommended for voltage checking)
-
-📦 Parts Checklist
-
-Before starting, make sure you have:
-
-All 3D-printed parts
-
-8 servo motors (hip + knee)
-
-ESP32 development board
-
-Custom PCB (optional but recommended)
-
-DC-DC buck/boost converter
-
-Dual 18650 battery holder + batteries
-
-M3, M2, M2.5 screws
-
-Threaded inserts
-
-Paper clips (for tendons)
-
-🖨 Step 1 – 3D Print All Parts
-
-Print the following parts from the /CAD folder:
-
-Body
-
-Body Lid
-
-Hip (Left + Right)
-
-Ham (Left + Right)
-
-Shank
-
-Servo brackets
-
-Tendon pins
-
-Printing Notes
-
-Rotate the body upside down before slicing
-
-Use supports only for the body
-
-Lid prints without supports
-
-Drill the shank joint hole using a 3 mm drill bit
-
-🔩 Step 2 – Insert Threaded Inserts
-
-Heat and press M3 and M2.5 threaded inserts into the body and lid
-
-Make sure they sit flush and straight
-
-This helps make the joints strong and reusable
-
-🦵 Step 3 – Assemble Legs
-
-Each leg uses 2 servos.
-
-Leg Assembly Order
-
-Mount hip servo inside the hip part
-
-Attach hip to ham section
-
-Mount knee servo
-
-Connect ham to shank using M3 screw + lock nut
-
-Tendons
-
-Straighten paper clips
-
-Insert them as tendons
-
-Lock them using printed tendon pins
-
-Repeat this for all 4 legs.
-
-⚙ Step 4 – Servo Preparation
-
-Center all servo horns using servo tester or code
-
-Only then screw the horns in place
-
-This avoids uneven movement later
-
-🔌 Step 5 – Electronics Assembly
-PCB & ESP32
-
-Mount ESP32 on PCB or holder
-
-Fix PCB inside the body using M2 screws
-
-Power
-
-Connect battery holder to DC-DC converter
-
-Adjust output to exactly 5V using multimeter
-
-Only then connect servo power rail
-
-⚠️ Do not connect servos before voltage check
-
-🧠 Step 6 – Wiring
-
-Connect hip servos to Hip headers
-
-Connect knee servos to Knee headers
-
-Ensure correct orientation of signal, VCC, and GND
-
-Route wires neatly to avoid joint stress
-
-🧩 Step 7 – Final Body Assembly
-
-Insert PCB and battery pack through bottom opening
-
-Arrange wires so lid closes easily
-
-Attach lid using screws
-
-Check leg movement by hand
-
-💻 Step 8 – Upload Firmware
-
-Connect ESP32 using USB
-
-Open firmware from /Firmware folder
-
-Install required libraries
-
-Upload code
-
-Set servo trim values in config file
-
-🐾 Step 9 – Testing & Tuning
-
-Power on robot
-
-Test each leg individually
-
-Place robot on flat surface
-
-Run walking function
-
-Adjust angles until movement is smooth
-
-Do not rush this step, tuning is important.
-
-✅ Assembly Complete
-
-If all steps are followed correctly, OREO should stand properly and walk with stable movement.
-
-ℹ Notes
-
-Minor adjustments are normal
-
-Servo angles differ slightly between units
-
-Always disconnect power while fixing mechanical parts
+# 🦾 OREO V2 Assembly & Development Guide
+
+This document contains the hardware wiring instructions and the advanced AI prompt required to generate the full control software.
+
+---
+
+## 🛠 Part 1: ASSEMBLE.md (Wiring & Hardware)
+
+### 1. Electronics Layout
+Since we are using **breakout boards**, no custom PCB is required. All components connect via jumper wires and a central I2C bus.
+
+| Component | Connection Type | Destination | Pins/Ports |
+| :--- | :--- | :--- | :--- |
+| **Teensy 4.0** | Data | Raspberry Pi 4 | USB-C to USB-A Cable |
+| **Teensy 4.0** | I2C (Logic) | PCA9685 | Pin 18 (SDA) -> SDA / Pin 19 (SCL) -> SCL |
+| **Teensy 4.0** | I2C (Logic) | MPU6050 | Pin 18 (SDA) -> SDA / Pin 19 (SCL) -> SCL |
+| **PCA9685** | High Power | 6V 10A Buck | Blue Screw Terminals (V+ and GND) |
+| **12x Servos** | PWM | PCA9685 | Channels 0-11 (Check Leg Mapping) |
+| **RPi 4** | Power | 5V 3A Buck | USB-C Power Port or GPIO Pins 2/6 |
+
+### 2. Leg Mapping (Standard 12-DOF)
+Connect your servos to the PCA9685 in this order to match standard gait code:
+* **Front Right (FR):** Hip = 0, Femur = 1, Tibia = 2
+* **Front Left (FL):** Hip = 4, Femur = 5, Tibia = 6
+* **Back Right (BR):** Hip = 8, Femur = 9, Tibia = 10
+* **Back Left (BL):** Hip = 12, Femur = 13, Tibia = 14
+
+### 3. Assembly Steps
+1.  **Neutral Calibration:** Power your PCA9685 and use a simple "90-degree" sketch to center all 12 servos before attaching leg horns.
+2.  **Mounting:** Secure the Raspberry Pi 4 and Teensy 4.0 to the main chassis using M3 screws.
+3.  **Heat Management:** Attach the Cooling Fan to the Pi 4. The 20kg servos and buck converters will get hot during 10+ minutes of use; ensure the chassis has airflow.
+4.  **IMU Placement:** Mount the MPU6050 as close to the **dead center** of the robot as possible for the best balance data.
+
+---
+
+## 🤖 Part 2: Antigravity AI Code Generation Prompt
+
+*Copy the text below and paste it into an AI (like ChatGPT, Claude, or Antigravity) to generate your entire codebase.*
+
+> **System Role:** You are an expert Robotics Engineer specializing in ROS 2 Humble and Teensy microcontrollers.
+>
+> **Project Goal:** Generate the software for "OREO V2," a 12-DOF quadruped robot.
+>
+> **Hardware Specs:**
+> - Master: Raspberry Pi 4 (Ubuntu 22.04 + ROS 2 Humble).
+> - Slave: Teensy 4.0 connected to Pi via USB Serial.
+> - Actuators: 12x 20kg Servos via PCA9685 (I2C).
+> - Sensor: MPU6050 (I2C) for balance.
+>
+> **Requirement 1: Teensy Firmware (C++)**
+> - Create a sketch using `Adafruit_PWMServoDriver.h` and `Wire.h`.
+> - Implement a serial parser that accepts a string like: `S,0,90,45,180...[12 angles]`.
+> - Include a safety "Soft Start" to prevent the 20kg servos from jerking on power-up.
+> - Send MPU6050 Pitch and Roll back to the Pi at 50Hz.
+>
+> **Requirement 2: ROS 2 Humble Python Node (Gait Engine)**
+> - Create a node called `oreo_gait_engine`.
+> - Implement Inverse Kinematics (IK) for a 3-segment leg (Coxa, Femur, Tibia).
+> - Create a "Trot Gait" trajectory generator.
+> - Subscribe to `/cmd_vel` (geometry_msgs/msg/Twist) to control speed and direction.
+> - Publish the 12 target angles to the Teensy via `pyserial`.
+>
+> **Requirement 3: ROS 2 Vision Node**
+> - Create a node using `opencv` and `cv_bridge` to process the RPi Camera feed.
+> - Implement simple color-based or face tracking that outputs a `/cmd_vel` message to make the robot follow a target.
+>
+> **Output Format:** Provide the Teensy `.ino` file first, followed by the ROS 2 Python nodes and a `setup.py` file.
+
+---
+
+## 📦 Part 4: Final Project Structure for GitHub
+Ensure your repository looks like this:
+```text
+OREO_V2/
+├── hardware/
+│   ├── wiring_diagram.png
+│   └── bom.csv
+├── firmware/
+│   └── oreo_teensy_control.ino
+└── ros2_ws/
+    └── src/
+        └── oreo_robot/
+            ├── oreo_robot/
+            │   ├── gait_engine.py
+            │   ├── serial_bridge.py
+            │   └── vision_node.py
+            ├── launch/
+            │   └── robot.launch.py
+            └── package.xml
