@@ -296,4 +296,4 @@ It is a robotics learning platform engineered for serious development while stay
 
 
 
-[![Hack Club](https://assets.hackclub.com/flag-orpheus-top.svg)](https://hackclub.com/)
+
