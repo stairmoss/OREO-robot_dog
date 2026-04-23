@@ -1,6 +1,5 @@
-# 🐕 OREO – ROS Based Quadruped Robot Dog
+# OREO – ROS Based Quadruped Robot Dog
 
-<a href="https://hackclub.com/"><img style="position: absolute; top: 0; left: 10px; border: 0; width: 256px; z-index: 999;" src="https://assets.hackclub.com/banners/2026.svg" alt="Hack Club"/></a>
 
 # OREO V2 – ROS Powered Vision-Based Quadruped Robot  
 ### Hack Club Advanced Robotics Project
